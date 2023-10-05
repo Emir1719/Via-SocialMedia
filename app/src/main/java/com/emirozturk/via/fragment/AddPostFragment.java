@@ -1,8 +1,9 @@
 package com.emirozturk.via.fragment;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,9 +59,26 @@ public class AddPostFragment extends Fragment {
    }
 
    @Override
-   public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState) {
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       // Inflate the layout for this fragment
       return inflater.inflate(R.layout.fragment_add_post, container, false);
+   }
+
+   public void upload(View view) {
+      try {
+
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+   }
+
+   public void selectImage(View view) {
+      try {
+
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
    }
 }
