@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout1"
         app:srcCompat="@drawable/login" />
 
     <LinearLayout
@@ -27,6 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageUserPost"
+        app:layout_constraintBottom_toTopOf="@id/linearButtons"
         tools:context=".YourActivity">
 
         <!-- E-posta Alanı -->
@@ -67,6 +69,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

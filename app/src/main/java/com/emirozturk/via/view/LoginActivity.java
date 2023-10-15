@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.emirozturk.via.R;
+import com.emirozturk.via.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
+   ActivityLoginBinding binding;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_login);
+      binding = ActivityLoginBinding.inflate(getLayoutInflater());
+      setContentView(binding.getRoot());
    }
 
    public void login(View view) {

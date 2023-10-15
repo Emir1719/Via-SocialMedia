@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +9,15 @@
 
     <ImageView
         android:id="@+id/imageUserPost"
-        android:onClick="selectImage"
         android:layout_width="225dp"
         android:layout_height="225dp"
         android:layout_marginTop="40dp"
+        android:contentDescription="@string/resim_se"
+        android:onClick="select"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image"
-        android:contentDescription="@string/resim_se"/>
+        app:srcCompat="@drawable/image" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
