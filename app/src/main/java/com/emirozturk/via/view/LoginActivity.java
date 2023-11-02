@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.emirozturk.via.R;
 import com.emirozturk.via.databinding.ActivityLoginBinding;
-import com.emirozturk.via.service.AppAuth;
-import com.emirozturk.via.service.IAuth;
 import com.emirozturk.via.widget.AppMessage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
