@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FF0000</color>
     <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="postBackground">#F8F9FA</color>
+    <color name="postComment">#5A5A5A</color>
+    <color name="buttonBackground">#D8D8D8</color>
+    <color name="buttonBackgroundComment">#F3F3F3</color>
 </resources>

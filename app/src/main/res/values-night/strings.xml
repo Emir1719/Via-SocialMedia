@@ -8,4 +8,5 @@
     <string name="email">Email</string>
     <string name="password">Şifre</string>
     <string name="resim_se">Resim seç</string>
+    <string name="exit_button">Çıkış yap</string>
 </resources>

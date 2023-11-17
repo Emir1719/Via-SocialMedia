@@ -4,17 +4,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.emirozturk.via.R;
 import com.emirozturk.via.databinding.ActivityMainBinding;
 import com.emirozturk.via.fragment.AddPostFragment;
 import com.emirozturk.via.fragment.HomeFragment;
 import com.emirozturk.via.fragment.ProfileFragment;
+import com.emirozturk.via.service.AppAuth;
+import com.emirozturk.via.model.IAuth;
 
 public class MainActivity extends AppCompatActivity {
    private ActivityMainBinding binding;
+   private IAuth auth;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,21 @@ public class MainActivity extends AppCompatActivity {
 
       replaceFragment(new HomeFragment());
       setupBottomNavbar();
+      auth = new AppAuth(this);
+   }
+
+   @Override
+   public boolean onCreateOptionsMenu(Menu menu) {
+      getMenuInflater().inflate(R.menu.exit_button, menu);
+      return super.onCreateOptionsMenu(menu);
+   }
+
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+      if (item.getItemId() == R.id.exit) {
+         auth.signOut();
+      }
+      return true;
    }
 
    private void setupBottomNavbar() {

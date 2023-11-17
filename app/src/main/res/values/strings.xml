@@ -12,4 +12,5 @@
     <string name="resim_se">Resim seç</string>
     <string name="yorum_giriniz">Yorum giriniz...</string>
     <string name="upload_post">Yükle</string>
+    <string name="exit_button">Çıkış yap</string>
 </resources>

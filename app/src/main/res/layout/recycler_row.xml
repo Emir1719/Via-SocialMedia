@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/postBackground"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:text="emir_1719"/>
+
+        <ImageButton
+            android:id="@+id/btnOptions"
+            android:background="@color/postBackground"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_more_vert_24"
+            android:contentDescription="settings" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/post"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:layout_height="230dp"
+        android:contentDescription="User post"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/postComment"
+        android:text="Yorum..."/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:background="@drawable/shape"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/likeCount"
+            android:text="0"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@color/postBackground"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_done_24"
+            android:contentDescription="like"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnComment"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_comment_24"
+        android:background="@drawable/shape"
+        android:contentDescription="like"
+        tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>

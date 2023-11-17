@@ -2,12 +2,8 @@ package com.emirozturk.via.fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,31 +20,21 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.emirozturk.via.R;
 import com.emirozturk.via.databinding.FragmentAddPostBinding;
+import com.emirozturk.via.model.IDatabase;
+import com.emirozturk.via.service.FirebaseDB;
 import com.emirozturk.via.widget.AppMessage;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 public class AddPostFragment extends Fragment {
    private FragmentAddPostBinding binding;
    private ActivityResultLauncher<Intent> activityResultLauncher;
    private ActivityResultLauncher<String> permissionLauncher;
    private Uri selectedImageUri;
-   private FirebaseFirestore firestore;
-   private FirebaseStorage storage;
-   private FirebaseAuth auth;
+   private IDatabase database;
 
    @Override
    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +49,7 @@ public class AddPostFragment extends Fragment {
       registerLauncher();
       binding.imageUserPost.setOnClickListener(this::select);
       binding.upload.setOnClickListener(this::upload);
-      firestore = FirebaseFirestore.getInstance();
-      storage = FirebaseStorage.getInstance();
-      auth = FirebaseAuth.getInstance();
+      database = new FirebaseDB(requireContext());
    }
 
    public void upload(View view) {
@@ -75,46 +59,12 @@ public class AddPostFragment extends Fragment {
             AppMessage.show(requireContext(), "Lütfen bir resim seçiniz!");
             return;
          }
-         if (binding.userComment.getText() == null) {
+         if (Objects.requireNonNull(binding.userComment.getText()).toString().isEmpty()) {
             AppMessage.show(requireContext(), "Lütfen bir yorum yazınız!");
             return;
          }
 
-         ProgressBar progressBar = new ProgressBar(requireContext());
-         progressBar.setIndeterminate(true);
-
-         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-         builder.setView(progressBar);
-         builder.setMessage("Your post is loading...");
-         AlertDialog dialog = builder.create();
-         dialog.show();
-
-         UUID uuid = UUID.randomUUID();
-         String imageName = uuid + ".jpg";
-         StorageReference reference = storage.getReference();
-         StorageReference imageRef = reference.child("images").child(imageName);
-         //Uri image = getImageUri(requireContext(), selectedImage);
-         imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot -> {
-            StorageReference userImage = storage.getReference().child("images").child(imageName);
-            userImage.getDownloadUrl().addOnSuccessListener(uri -> {
-               String url = uri.toString();
-               HashMap<String, Object> postMap = new HashMap<>();
-               postMap.put("email", Objects.requireNonNull(auth.getCurrentUser()).getEmail());
-               postMap.put("url", url);
-               postMap.put("comment", binding.userComment.getText().toString());
-               postMap.put("date", Timestamp.now());
-
-               firestore.collection("Posts").add(postMap).addOnSuccessListener(runnable -> {
-                  dialog.hide();
-               }).addOnFailureListener(e -> {
-                  dialog.hide();
-                  AppMessage.show(requireContext(), e.getLocalizedMessage());
-               });
-            });
-         }).addOnFailureListener(e -> {
-            dialog.hide();
-            AppMessage.show(requireContext(), e.getLocalizedMessage());
-         });
+         database.uploadPost(selectedImageUri, binding.userComment.getText().toString());
       }
       catch (Exception e) {
          e.printStackTrace();

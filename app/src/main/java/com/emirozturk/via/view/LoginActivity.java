@@ -6,17 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.emirozturk.via.databinding.ActivityLoginBinding;
-import com.emirozturk.via.widget.AppMessage;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.emirozturk.via.service.AppAuth;
+import com.emirozturk.via.model.IAuth;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
    private ActivityLoginBinding binding;
-   private FirebaseAuth auth;
    private String email, password;
-   //private IAuth appAuth;
+   private IAuth auth;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -24,76 +22,34 @@ public class LoginActivity extends AppCompatActivity {
       binding = ActivityLoginBinding.inflate(getLayoutInflater());
       setContentView(binding.getRoot());
 
-      auth = FirebaseAuth.getInstance();
-      //appAuth = new AppAuth(this);
+      auth = new AppAuth(this);
    }
 
    @Override
    protected void onStart() {
       super.onStart();
-      FirebaseUser currentUser = auth.getCurrentUser();
-      if (currentUser != null){
+      if (auth.isHaveUser()) {
          //Kullanıcı varsa ana sayfaya geç.
-         gotoMainActivity();
+         Intent intent = new Intent(this, MainActivity.class);
+         startActivity(intent);
+         finish();
       }
+   }
+
+   private void getEmailAndPassword() {
+      email = Objects.requireNonNull(binding.editMail.getText()).toString();
+      password = Objects.requireNonNull(binding.editPassword.getText()).toString();
    }
 
    public void login(View view) {
-      try {
-         email = Objects.requireNonNull(binding.editMail.getText()).toString();
-         password = Objects.requireNonNull(binding.editPassword.getText()).toString();
-
-         if (!email.isEmpty() && !password.isEmpty()) {
-            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-               gotoMainActivity();
-            }).addOnFailureListener(e -> {
-               AppMessage.show(this, e.getLocalizedMessage());
-            });
-         }
-         else {
-            AppMessage.show(this, "Email veya şifre alanı boş olamaz!");
-         }
-      }
-      catch (Exception e) {
-         e.printStackTrace();
-      }
+      getEmailAndPassword();
+      auth.login(email, password);
+      finish();
    }
 
    public void register(View view) {
-      try {
-         email = Objects.requireNonNull(binding.editMail.getText()).toString();
-         password = Objects.requireNonNull(binding.editPassword.getText()).toString();
-
-         if (!email.isEmpty() && !password.isEmpty()) {
-            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-               gotoMainActivity();
-            }).addOnFailureListener(e -> {
-               AppMessage.show(this, e.getLocalizedMessage());
-            });
-         }
-         else {
-            AppMessage.show(this, "Email veya şifre alanı boş olamaz!");
-         }
-      }
-      catch (Exception e) {
-         e.printStackTrace();
-      }
-   }
-
-   //Çalışmalar devam ediyor...
-   /*public void registerTry(View view) {
-      email = Objects.requireNonNull(binding.editMail.getText()).toString();
-      password = Objects.requireNonNull(binding.editPassword.getText()).toString();
-
-      boolean result = appAuth.register(email, password);
-      if (result) {
-         gotoMainActivity();
-      }
-   }*/
-
-   private void gotoMainActivity() {
-      Intent intent = new Intent(this, MainActivity.class);
-      startActivity(intent);
+      getEmailAndPassword();
+      auth.register(email, password);
       finish();
    }
 }
