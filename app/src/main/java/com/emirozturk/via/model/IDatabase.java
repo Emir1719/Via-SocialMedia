@@ -7,4 +7,5 @@ public interface IDatabase {
    void uploadPost(Uri selectedImageUri, String comment);
    ArrayList<Post> getPosts(User user);
    ArrayList<Post> getAllPost();
+   //void deletePost();
 }

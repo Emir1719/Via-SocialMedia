@@ -59,12 +59,8 @@ public class AddPostFragment extends Fragment {
             AppMessage.show(requireContext(), "Lütfen bir resim seçiniz!");
             return;
          }
-         if (Objects.requireNonNull(binding.userComment.getText()).toString().isEmpty()) {
-            AppMessage.show(requireContext(), "Lütfen bir yorum yazınız!");
-            return;
-         }
-
-         database.uploadPost(selectedImageUri, binding.userComment.getText().toString());
+         String comment = Objects.requireNonNull(binding.userComment.getText()).toString().trim();
+         database.uploadPost(selectedImageUri, comment);
       }
       catch (Exception e) {
          e.printStackTrace();

@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/exit"
-        android:icon="@drawable/baseline_cancel_24"
+        android:icon="@drawable/cancel_24"
         app:showAsAction="always"
-        android:iconTint="@color/design_default_color_on_primary"
         android:title=""/>
 </menu>

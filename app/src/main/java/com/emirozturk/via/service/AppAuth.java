@@ -8,6 +8,7 @@ import com.emirozturk.via.view.MainActivity;
 import com.emirozturk.via.widget.AppMessage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -85,5 +86,10 @@ public class AppAuth implements IAuth {
    @Override
    public boolean isHaveUser() {
       return currentUser != null;
+   }
+
+   @Override
+   public FirebaseUser currentUser() {
+      return auth.getCurrentUser();
    }
 }

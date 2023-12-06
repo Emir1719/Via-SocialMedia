@@ -4,7 +4,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:actionMenuTextColor">@color/black</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:itemTextAppearance">@style/popupStyle</item>
+    </style>
+
+    <style name="popupStyle" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.Via" parent="Base.Theme.Via"/>

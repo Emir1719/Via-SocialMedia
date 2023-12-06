@@ -10,17 +10,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:layout_weight="2"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/email"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingVertical="8dp"
             android:paddingHorizontal="10dp"
             android:textSize="16sp"
+            android:gravity="center_vertical"
             android:textColor="@color/black"
             android:layout_weight="1"
             android:text="emir_1719"/>
@@ -31,14 +32,14 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:src="@drawable/baseline_more_vert_24"
-            android:contentDescription="settings" />
+            android:contentDescription="@string/post_option" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/post"
         android:layout_width="match_parent"
         android:layout_gravity="top"
-        android:layout_height="230dp"
+        android:layout_height="250dp"
         android:contentDescription="User post"
         android:scaleType="centerCrop"
         android:src="@drawable/image"
@@ -61,15 +62,16 @@
         android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/likeButtonContainer"
         android:layout_margin="10dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:background="@drawable/shape"
-        android:layout_height="40dp">
+        android:layout_height="48dp">
 
         <TextView
             android:id="@+id/likeCount"
-            android:text="0"
+            android:text="@string/default_like_value"
             android:paddingHorizontal="10dp"
             android:textColor="@color/black"
             android:layout_gravity="center"
@@ -80,11 +82,11 @@
         <ImageButton
             android:id="@+id/btnLike"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:background="@color/postBackground"
+            android:layout_height="48dp"
             android:layout_gravity="center"
+            android:background="@color/postBackground"
+            android:contentDescription="post like"
             android:src="@drawable/baseline_done_24"
-            android:contentDescription="like"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
@@ -92,8 +94,8 @@
     <ImageButton
         android:id="@+id/btnComment"
         android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:src="@drawable/baseline_comment_24"
+        android:layout_height="48dp"
+        android:src="@drawable/baseline_add_comment_24"
         android:background="@drawable/shape"
         android:contentDescription="like"
         tools:ignore="HardcodedText" />
