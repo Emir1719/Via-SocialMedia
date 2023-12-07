@@ -11,4 +11,5 @@
     <string name="exit_button">Çıkış yap</string>
     <string name="delete_post">Sil</string>
     <string name="post_option">post option</string>
+    <string name="user_post">User post</string>
 </resources>

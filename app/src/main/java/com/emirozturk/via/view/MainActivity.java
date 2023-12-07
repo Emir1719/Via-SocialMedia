@@ -1,4 +1,5 @@
 package com.emirozturk.via.view;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -38,11 +39,17 @@ public class MainActivity extends AppCompatActivity {
    }
 
    @Override
-   public boolean onOptionsItemSelected(MenuItem item) {
-      if (item.getItemId() == R.id.exit) {
-         auth.signOut();
+   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+      try {
+         if (item.getItemId() == R.id.exit) {
+            auth.signOut();
+         }
+         return true;
       }
-      return true;
+      catch (Exception e) {
+         e.printStackTrace();
+         return false;
+      }
    }
 
    private void setupBottomNavbar() {

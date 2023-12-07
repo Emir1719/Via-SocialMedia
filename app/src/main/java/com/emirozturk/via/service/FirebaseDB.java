@@ -2,15 +2,17 @@ package com.emirozturk.via.service;
 import android.content.Context;
 import android.net.Uri;
 
-import com.emirozturk.via.adapter.PostAdapter;
 import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
 import com.emirozturk.via.widget.AppMessage;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -20,12 +22,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class FirebaseDB implements IDatabase {
    private final Context context;
    private final FirebaseFirestore firestore;
    private final FirebaseStorage storage;
    private final FirebaseAuth auth;
+   private Task<QuerySnapshot> task;
+   private CompletableFuture<ArrayList<Post>> future;
+   private ArrayList<Post> posts;
 
    public FirebaseDB(Context context) {
       this.context = context;
@@ -68,27 +74,46 @@ public class FirebaseDB implements IDatabase {
       }
    }
 
-   @Override
-   public ArrayList<Post> getPosts(User user) {
-      return null;
+   private void handleFirestoreTask(Task<QuerySnapshot> task, CompletableFuture<ArrayList<Post>> future, ArrayList<Post> posts) {
+      if (task.isSuccessful()) {
+         for (DocumentSnapshot snapshot : task.getResult()) {
+            Map<String, Object> map = snapshot.getData();
+            Post post = new Post();
+            post.fromMap(map);
+            posts.add(post);
+         }
+         future.complete(posts); // Başarıyla tamamlandı.
+      } else {
+         future.completeExceptionally(task.getException());
+      }
    }
 
    @Override
-   public ArrayList<Post> getAllPost() {
+   ///Kullanıcının tüm gönderilerini getirir.
+   public CompletableFuture<ArrayList<Post>> getPosts(FirebaseUser user) {
+      CompletableFuture<ArrayList<Post>> future = new CompletableFuture<>();
       ArrayList<Post> posts = new ArrayList<>();
-      firestore.collection("Posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener((value, error) -> {
-         if (error != null) {
-            AppMessage.show(context, error.getLocalizedMessage());
-         }
-         if (value != null) {
-            for (DocumentSnapshot snapshot : value.getDocuments()) {
-               Map<String, Object> map = snapshot.getData();
-               Post post = new Post();
-               post.mapToPost(map);
-               posts.add(post);
-            }
-         }
-      });
-      return posts;
+
+      firestore.collection("Posts")
+              .whereEqualTo("email", Objects.requireNonNull(auth.getCurrentUser()).getEmail())
+              .orderBy("date", Query.Direction.DESCENDING)
+              .get()
+              .addOnCompleteListener(task -> handleFirestoreTask(task, future, posts));
+      return future;
+   }
+
+   @Override
+   ///Veritabanındaki tüm gönderileri getirir.
+   public CompletableFuture<ArrayList<Post>> getAllPost() {
+      //Firebaseden veri alma işlemini beklemek için future tanımlandı.
+      CompletableFuture<ArrayList<Post>> future = new CompletableFuture<>();
+      ArrayList<Post> posts = new ArrayList<>();
+
+      firestore.collection("Posts")
+              .orderBy("date", Query.Direction.DESCENDING)
+              .get()
+              .addOnCompleteListener(task -> handleFirestoreTask(task, future, posts));
+
+      return future;
    }
 }

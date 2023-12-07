@@ -12,7 +12,7 @@ public class Post {
       setUrl(url);
    }
 
-   public void mapToPost(Map<String, Object> map) {
+   public void fromMap(Map<String, Object> map) {
       setEmail((String) map.get("email"));
       setUrl((String) map.get("url"));
       setComment((String) map.get("comment"));

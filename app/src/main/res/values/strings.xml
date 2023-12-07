@@ -16,4 +16,5 @@
     <string name="delete_post">Sil</string>
     <string name="default_like_value">0</string>
     <string name="post_option">post option</string>
+    <string name="user_post">User post</string>
 </resources>

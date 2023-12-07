@@ -26,12 +26,9 @@ import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
    private final ArrayList<Post> posts;
-   private Context context;
-   private final IAuth auth;
 
    public PostAdapter(ArrayList<Post> posts) {
       this.posts = posts;
-      this.auth = new AppAuth(context);
    }
 
    static class PostHolder extends RecyclerView.ViewHolder {
@@ -46,7 +43,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
          binding.btnLike.setOnClickListener(this::likePost);
          binding.btnComment.setOnClickListener(this::comment);
          binding.post.setOnClickListener(this::tabImage);
-         binding.btnOptions.setOnClickListener(this::option);
       }
 
       //Gönderiyi beğenme işlemini yapar.
@@ -56,22 +52,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
          count++;
          binding.likeCount.setText(String.valueOf(count));
          binding.btnLike.setEnabled(false);
-      }
-
-      //Gönderideki menü işlemlerini yapar.
-      private void option(View view) {
-         PopupMenu popup = new PopupMenu(context, binding.btnOptions);
-         popup.inflate(R.menu.post_options);
-         popup.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-               case R.id.delete:
-                  System.out.println("Silindi");
-                  return true;
-               default:
-                  return false;
-            }
-         });
-         popup.show();
       }
 
       //Yorum sayfasına gider.
@@ -98,8 +78,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
    @NonNull @Override
    public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       RecyclerRowBinding binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-      context = parent.getContext();
-
+      Context context = parent.getContext();
       return new PostHolder(binding, context);
    }
 
@@ -117,11 +96,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
       //Eğer kişi yorum girmediyse bu alan görünmesin ve yer kaplamasın.
       if (posts.get(position).getComment().trim().isEmpty()) {
          holder.binding.comment.setVisibility(View.GONE);
-      }
-
-      //Bu menü sadece kişinin kendi gönderilerinde aktif olacak.
-      if (!Objects.equals(auth.currentUser().getEmail(), posts.get(position).getEmail())) {
-         holder.binding.btnOptions.setVisibility(View.INVISIBLE);
       }
    }
 }
