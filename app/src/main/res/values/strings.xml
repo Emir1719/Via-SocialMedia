@@ -17,4 +17,5 @@
     <string name="default_like_value">0</string>
     <string name="post_option">post option</string>
     <string name="user_post">User post</string>
+    <string name="delete_user_post">Gönderiyi Sil</string>
 </resources>

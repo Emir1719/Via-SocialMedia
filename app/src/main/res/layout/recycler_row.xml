@@ -80,7 +80,7 @@
         android:id="@+id/btnComment"
         android:layout_width="50dp"
         android:layout_height="48dp"
-        android:src="@drawable/baseline_add_comment_24"
+        android:src="@drawable/baseline_comment_24"
         android:background="@drawable/shape"
         android:contentDescription="like"
         tools:ignore="HardcodedText" />

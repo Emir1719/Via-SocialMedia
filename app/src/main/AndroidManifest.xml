@@ -20,6 +20,9 @@
         android:theme="@style/Theme.Via"
         tools:targetApi="31">
         <activity
+            android:name=".view.PostDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.CommentActivity"
             android:exported="false" />
         <activity
@@ -37,7 +40,7 @@
             android:name=".view.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"></activity>
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

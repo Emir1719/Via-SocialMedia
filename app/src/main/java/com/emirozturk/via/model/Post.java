@@ -1,7 +1,8 @@
 package com.emirozturk.via.model;
+import java.io.Serializable;
 import java.util.Map;
 
-public class Post {
+public class Post implements Serializable {
    private String email, comment, url, likeCount;
 
    public Post() {}
