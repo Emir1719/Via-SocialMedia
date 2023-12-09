@@ -16,12 +16,7 @@ import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
 import com.emirozturk.via.service.FirebaseDB;
 import com.emirozturk.via.widget.AppMessage;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
 import java.util.ArrayList;
-import java.util.Map;
 
 public class HomeFragment extends Fragment {
    private FragmentHomeBinding binding;

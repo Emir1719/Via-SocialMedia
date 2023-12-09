@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.emirozturk.via.databinding.UserPostCellBinding;
-import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
 import com.emirozturk.via.view.PostDetailActivity;
 import com.squareup.picasso.Picasso;

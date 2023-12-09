@@ -1,12 +1,11 @@
 package com.emirozturk.via.model;
-
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.auth.User;
+import java.util.concurrent.CompletableFuture;
 
 public interface IAuth {
-   boolean register(String email, String password);
-   boolean login(String email, String password);
-   boolean signOut();
+   CompletableFuture<Boolean> register(String email, String password);
+   CompletableFuture<Boolean> login(String email, String password);
+   CompletableFuture<Boolean> signOut();
    boolean isHaveUser();
    FirebaseUser currentUser();
 }

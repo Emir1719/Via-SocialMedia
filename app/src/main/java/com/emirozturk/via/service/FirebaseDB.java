@@ -28,9 +28,6 @@ public class FirebaseDB implements IDatabase {
    private final FirebaseFirestore firestore;
    private final FirebaseStorage storage;
    private final FirebaseAuth auth;
-   private Task<QuerySnapshot> task;
-   private CompletableFuture<ArrayList<Post>> future;
-   private ArrayList<Post> posts;
 
    public FirebaseDB(Context context) {
       this.context = context;

@@ -1,9 +1,12 @@
 package com.emirozturk.via.model;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Post implements Serializable {
-   private String email, comment, url, likeCount;
+   private String email, comment, url;
+   private int likeCount;
 
    public Post() {}
 
@@ -11,13 +14,23 @@ public class Post implements Serializable {
       setEmail(email);
       setComment(comment);
       setUrl(url);
+      setLikeCount(0);
    }
 
    public void fromMap(Map<String, Object> map) {
       setEmail((String) map.get("email"));
       setUrl((String) map.get("url"));
       setComment((String) map.get("comment"));
-      //setLikeCount((String) map.get("likeCount"));
+      setLikeCount(Integer.parseInt((String) Objects.requireNonNull(map.get("likeCount"))));
+   }
+
+   public Map<String, Object> toMap() {
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("email", getEmail());
+      map.put("url", getUrl());
+      map.put("comment", getComment());
+      map.put("likeCount", getLikeCount());
+      return map;
    }
 
    public String getEmail() {
@@ -44,11 +57,11 @@ public class Post implements Serializable {
       this.url = url;
    }
 
-   public String getLikeCount() {
+   public int getLikeCount() {
       return likeCount;
    }
 
-   public void setLikeCount(String likeCount) {
+   public void setLikeCount(int likeCount) {
       this.likeCount = likeCount;
    }
 }

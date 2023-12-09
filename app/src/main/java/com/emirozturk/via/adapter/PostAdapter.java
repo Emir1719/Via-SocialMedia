@@ -1,28 +1,17 @@
 package com.emirozturk.via.adapter;
 import android.content.Context;
 import android.content.Intent;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.emirozturk.via.R;
 import com.emirozturk.via.databinding.RecyclerRowBinding;
-import com.emirozturk.via.model.IAuth;
 import com.emirozturk.via.model.Post;
-import com.emirozturk.via.service.AppAuth;
 import com.emirozturk.via.view.CommentActivity;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
    private final ArrayList<Post> posts;

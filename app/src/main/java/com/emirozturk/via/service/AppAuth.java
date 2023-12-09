@@ -1,15 +1,14 @@
 package com.emirozturk.via.service;
 import android.content.Context;
 import android.content.Intent;
-
 import com.emirozturk.via.model.IAuth;
 import com.emirozturk.via.view.LoginActivity;
 import com.emirozturk.via.view.MainActivity;
 import com.emirozturk.via.widget.AppMessage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.auth.User;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AppAuth implements IAuth {
@@ -24,13 +23,12 @@ public class AppAuth implements IAuth {
    }
 
    @Override
-   public boolean register(String email, String password) {
-      AtomicBoolean result = new AtomicBoolean(false);
+   public CompletableFuture<Boolean> register(String email, String password) {
+      CompletableFuture<Boolean> future = new CompletableFuture<>();
       try {
          if (!email.isEmpty() && !password.isEmpty()) {
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-               gotoActivity(MainActivity.class);
-               result.set(true);
+               future.complete(true);
             }).addOnFailureListener(e -> {
                AppMessage.show(context, e.getLocalizedMessage());
             });
@@ -42,17 +40,16 @@ public class AppAuth implements IAuth {
       catch (Exception e) {
          e.printStackTrace();
       }
-      return result.get();
+      return future;
    }
 
    @Override
-   public boolean login(String email, String password) {
-      AtomicBoolean result = new AtomicBoolean(false);
+   public CompletableFuture<Boolean> login(String email, String password) {
+      CompletableFuture<Boolean> future = new CompletableFuture<>();
       try {
          if (!email.isEmpty() && !password.isEmpty()) {
             auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-               gotoActivity(MainActivity.class);
-               result.set(true);
+               future.complete(true);
             }).addOnFailureListener(e -> {
                AppMessage.show(context, e.getLocalizedMessage());
             });
@@ -64,23 +61,20 @@ public class AppAuth implements IAuth {
       catch (Exception e) {
          e.printStackTrace();
       }
-      return result.get();
+      return future;
    }
 
    @Override
-   public boolean signOut() {
-      auth.signOut();
-      gotoActivity(LoginActivity.class);
-      return false;
-   }
-
-   private void gotoActivity(Class<?> cs) {
-      Intent intent = new Intent(context, cs);
-      context.startActivity(intent);
-   }
-
-   public FirebaseUser getCurrentUser() {
-      return currentUser;
+   public CompletableFuture<Boolean> signOut() {
+      CompletableFuture<Boolean> future = new CompletableFuture<>();
+      try {
+         auth.signOut();
+         future.complete(true);
+      }
+      catch (Exception e) {
+         future.completeExceptionally(e);
+      }
+      return future;
    }
 
    @Override
