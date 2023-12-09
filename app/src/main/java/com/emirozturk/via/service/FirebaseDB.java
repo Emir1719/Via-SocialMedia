@@ -13,7 +13,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -74,7 +73,7 @@ public class FirebaseDB implements IDatabase {
       }
    }
 
-   private void handleFirestoreTask(Task<QuerySnapshot> task, CompletableFuture<ArrayList<Post>> future, ArrayList<Post> posts) {
+   private void updatePosts(Task<QuerySnapshot> task, CompletableFuture<ArrayList<Post>> future, ArrayList<Post> posts) {
       if (task.isSuccessful()) {
          for (DocumentSnapshot snapshot : task.getResult()) {
             Map<String, Object> map = snapshot.getData();
@@ -98,7 +97,7 @@ public class FirebaseDB implements IDatabase {
               .whereEqualTo("email", Objects.requireNonNull(auth.getCurrentUser()).getEmail())
               .orderBy("date", Query.Direction.DESCENDING)
               .get()
-              .addOnCompleteListener(task -> handleFirestoreTask(task, future, posts));
+              .addOnCompleteListener(task -> updatePosts(task, future, posts));
       return future;
    }
 
@@ -112,8 +111,35 @@ public class FirebaseDB implements IDatabase {
       firestore.collection("Posts")
               .orderBy("date", Query.Direction.DESCENDING)
               .get()
-              .addOnCompleteListener(task -> handleFirestoreTask(task, future, posts));
+              .addOnCompleteListener(task -> updatePosts(task, future, posts));
 
+      return future;
+   }
+
+   @Override
+   public CompletableFuture<Boolean> deletePost(Post post) {
+      CompletableFuture<Boolean> future = new CompletableFuture<>();
+      StorageReference imageRef = storage.getReferenceFromUrl(post.getUrl());
+      //Storagedeki resim başarılı bir şekilde silinirse ardından gönderiyi de sil.
+      imageRef.delete().addOnSuccessListener(runnable -> {
+         firestore.collection("Posts")
+                 .whereEqualTo("url", post.getUrl())
+                 .whereEqualTo("email", post.getEmail())
+                 .get()
+                 .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                       // Belge bulunduysa sil
+                       for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                          System.out.println(document.getReference().getPath());
+                          document.getReference().delete();
+                       }
+                       future.complete(true); // İşlem başarıyla tamamlandı
+                    } else {
+                       // Sorgu başarısız olduysa
+                       future.completeExceptionally(task.getException());
+                    }
+                 });
+      });
       return future;
    }
 }

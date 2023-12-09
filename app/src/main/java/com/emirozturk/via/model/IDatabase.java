@@ -10,5 +10,5 @@ public interface IDatabase {
    void uploadPost(Uri selectedImageUri, String comment);
    CompletableFuture<ArrayList<Post>> getPosts(FirebaseUser user);
    CompletableFuture<ArrayList<Post>> getAllPost();
-   //void deletePost();
+   CompletableFuture<Boolean> deletePost(Post post);
 }
