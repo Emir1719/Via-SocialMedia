@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.emirozturk.via.databinding.RecyclerRowBinding;
+import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
+import com.emirozturk.via.service.FirebaseDB;
 import com.emirozturk.via.view.CommentActivity;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -23,11 +25,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
    static class PostHolder extends RecyclerView.ViewHolder {
       private final RecyclerRowBinding binding;
       private final Context context;
+      private final IDatabase database;
+      private ArrayList<Post> posts;
 
-      public PostHolder(RecyclerRowBinding binding, Context context) {
+      public PostHolder(RecyclerRowBinding binding, Context context, ArrayList<Post> posts) {
          super(binding.getRoot());
          this.binding = binding;
          this.context = context;
+         this.posts = posts;
+         this.database = new FirebaseDB(context);
 
          binding.btnLike.setOnClickListener(this::likePost);
          binding.btnComment.setOnClickListener(this::comment);
@@ -36,16 +42,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
       //Gönderiyi beğenme işlemini yapar.
       private void likePost(View view) {
-         String likeText = binding.likeCount.getText().toString();
-         int count = Integer.parseInt(likeText);
-         count++;
-         binding.likeCount.setText(String.valueOf(count));
-         binding.btnLike.setEnabled(false);
+         Post post = getCurrentPost();
+         database.likePost(post).thenAccept(aBoolean -> {
+            database.getLikeCount(post).thenAccept(binding.likeCount::setText);
+         });
       }
 
       //Yorum sayfasına gider.
       private void comment(View view) {
          Intent intent = new Intent(context, CommentActivity.class);
+         intent.putExtra("post", getCurrentPost());
          context.startActivity(intent);
       }
 
@@ -62,13 +68,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
          }
          binding.post.setScaleType(scaleType);
       }
+
+      public Post getCurrentPost() {
+         return posts.get(getAdapterPosition());
+      }
    }
 
    @NonNull @Override
    public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       RecyclerRowBinding binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
       Context context = parent.getContext();
-      return new PostHolder(binding, context);
+      return new PostHolder(binding, context, posts);
    }
 
    @Override
@@ -81,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
       holder.binding.email.setText(posts.get(position).getEmail());
       holder.binding.comment.setText(posts.get(position).getComment());
       Picasso.get().load(posts.get(position).getUrl()).into(holder.binding.post);
+      holder.binding.likeCount.setText(String.valueOf(posts.get(position).getLikeCount()));
 
       //Eğer kişi yorum girmediyse bu alan görünmesin ve yer kaplamasın.
       if (posts.get(position).getComment().trim().isEmpty()) {

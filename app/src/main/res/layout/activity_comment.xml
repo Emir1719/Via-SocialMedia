@@ -7,4 +7,48 @@
     android:layout_height="match_parent"
     tools:context=".view.CommentActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/editTextComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_weight="7"
+            android:hint="@string/comment"
+            android:autofillHints="Yorum"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/btnComment"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_send_24"
+            android:background="@drawable/shape"
+            android:contentDescription="like"
+            tools:ignore="HardcodedText"
+            android:layout_weight="3"/>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

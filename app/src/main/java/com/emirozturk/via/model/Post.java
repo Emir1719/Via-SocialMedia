@@ -21,7 +21,15 @@ public class Post implements Serializable {
       setEmail((String) map.get("email"));
       setUrl((String) map.get("url"));
       setComment((String) map.get("comment"));
-      setLikeCount(Integer.parseInt((String) Objects.requireNonNull(map.get("likeCount"))));
+      // Firestore'dan gelen sayısal değeri Long türünde al
+      Long likeCountLong = (Long) map.get("likeCount");
+
+      // Long türündeki değeri Integer türüne dönüştür
+      if (likeCountLong != null) {
+         setLikeCount(likeCountLong.intValue());
+      } else {
+         setLikeCount(0);
+      }
    }
 
    public Map<String, Object> toMap() {
