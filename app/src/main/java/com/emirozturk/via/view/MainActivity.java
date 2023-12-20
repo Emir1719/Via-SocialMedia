@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.emirozturk.via.R;
 import com.emirozturk.via.databinding.ActivityMainBinding;
 import com.emirozturk.via.fragment.AddPostFragment;
@@ -19,17 +17,11 @@ import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.service.AppAuth;
 import com.emirozturk.via.model.IAuth;
 import com.emirozturk.via.service.FirebaseDB;
-import com.emirozturk.via.widget.AppNotification;
-import com.onesignal.Continue;
-import com.onesignal.OneSignal;
-import com.onesignal.common.OneSignalUtils;
-import com.onesignal.debug.LogLevel;
 
 public class MainActivity extends AppCompatActivity {
    private ActivityMainBinding binding;
    private IAuth auth;
    private IDatabase database;
-   private AppNotification notification;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +33,6 @@ public class MainActivity extends AppCompatActivity {
       setupBottomNavbar();
       auth = new AppAuth(this);
       database = new FirebaseDB(this);
-      notification = new AppNotification(this);
-      notification.init().thenAccept(aBoolean -> {
-         if (aBoolean) {
-            database.saveUser();
-         }
-      });
-
    }
 
    @Override

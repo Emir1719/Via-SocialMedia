@@ -58,8 +58,8 @@ public class CommentActivity extends AppCompatActivity {
 
    @SuppressLint("NotifyDataSetChanged")
    public void getAllComment() {
-      comments.clear();
       database.getAllComment(post).thenAccept(comments1 -> {
+         comments.clear();
          comments.addAll(comments1);
          adapter.notifyDataSetChanged();
       });
