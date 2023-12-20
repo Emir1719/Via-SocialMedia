@@ -15,12 +15,21 @@ import com.emirozturk.via.databinding.ActivityMainBinding;
 import com.emirozturk.via.fragment.AddPostFragment;
 import com.emirozturk.via.fragment.HomeFragment;
 import com.emirozturk.via.fragment.ProfileFragment;
+import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.service.AppAuth;
 import com.emirozturk.via.model.IAuth;
+import com.emirozturk.via.service.FirebaseDB;
+import com.emirozturk.via.widget.AppNotification;
+import com.onesignal.Continue;
+import com.onesignal.OneSignal;
+import com.onesignal.common.OneSignalUtils;
+import com.onesignal.debug.LogLevel;
 
 public class MainActivity extends AppCompatActivity {
    private ActivityMainBinding binding;
    private IAuth auth;
+   private IDatabase database;
+   private AppNotification notification;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
       replaceFragment(new HomeFragment());
       setupBottomNavbar();
       auth = new AppAuth(this);
+      database = new FirebaseDB(this);
+      notification = new AppNotification(this);
+      notification.init().thenAccept(aBoolean -> {
+         if (aBoolean) {
+            database.saveUser();
+         }
+      });
+
    }
 
    @Override

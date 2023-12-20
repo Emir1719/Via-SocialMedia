@@ -13,4 +13,5 @@ public interface IDatabase {
    CompletableFuture<String> getLikeCount(Post post);
    CompletableFuture<ArrayList<Comment>> getAllComment(Post post);
    CompletableFuture<Boolean> saveComment(Comment comment, Post post);
+   CompletableFuture<Boolean> saveUser();
 }

@@ -6,10 +6,12 @@ import com.emirozturk.via.model.Comment;
 import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
 import com.emirozturk.via.widget.AppMessage;
+import com.emirozturk.via.widget.AppNotification;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +37,9 @@ public class FirebaseDB implements IDatabase {
 
    public FirebaseDB(Context context) {
       this.context = context;
-      firestore = FirebaseFirestore.getInstance();
-      storage = FirebaseStorage.getInstance();
-      auth = FirebaseAuth.getInstance();
+      this.firestore = FirebaseFirestore.getInstance();
+      this.storage = FirebaseStorage.getInstance();
+      this.auth = FirebaseAuth.getInstance();
    }
 
    @Override
@@ -225,6 +228,32 @@ public class FirebaseDB implements IDatabase {
       firestore.collection("Comments").add(map).addOnSuccessListener(runnable -> {
          future.complete(true);
       });
+      return future;
+   }
+
+   @Override
+   public CompletableFuture<Boolean> saveUser() {
+      CompletableFuture<Boolean> future = new CompletableFuture<>();
+      firestore.collection("Users")
+              .whereEqualTo("email", auth.getCurrentUser().getEmail()).get()
+              .addOnCompleteListener(task -> {
+                 if (task.isSuccessful()) {
+                    String id = OneSignal.getUser().getPushSubscription().getId();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                       String documentId = document.getId();
+                       firestore.collection("Users").document(documentId).update("notificationID", id);
+                    }
+                    if (task.getResult().getDocuments().isEmpty()) {
+                       // Kullanıcı kayıtlı değil, yeni bir kayıt oluştur
+                       Map<String, Object> user = new HashMap<>();
+                       user.put("email", auth.getCurrentUser().getEmail());
+                       user.put("notificationID", id);
+                       firestore.collection("Users").add(user);
+                       future.complete(true);
+                    }
+                 }
+              });
+
       return future;
    }
 

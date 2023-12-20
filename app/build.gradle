@@ -34,14 +34,14 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //for ui
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
@@ -52,4 +52,7 @@ dependencies {
 
     //image caching
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    //One Signal notification
+    implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
 }
