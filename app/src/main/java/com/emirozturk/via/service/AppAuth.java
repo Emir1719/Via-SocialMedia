@@ -1,15 +1,10 @@
 package com.emirozturk.via.service;
 import android.content.Context;
-import android.content.Intent;
 import com.emirozturk.via.model.IAuth;
-import com.emirozturk.via.view.LoginActivity;
-import com.emirozturk.via.view.MainActivity;
 import com.emirozturk.via.widget.AppMessage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AppAuth implements IAuth {
    private final FirebaseAuth auth;

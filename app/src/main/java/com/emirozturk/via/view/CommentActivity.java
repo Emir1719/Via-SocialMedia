@@ -14,6 +14,7 @@ import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.model.Post;
 import com.emirozturk.via.service.AppAuth;
 import com.emirozturk.via.service.FirebaseDB;
+import com.emirozturk.via.widget.AppMessage;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,10 @@ public class CommentActivity extends AppCompatActivity {
       Comment comment = new Comment();
       comment.setEmail(auth.currentUser().getEmail());
       comment.setMessage(binding.editTextComment.getText().toString());
+      if (comment.getMessage().isEmpty()) {
+         AppMessage.showShort(getApplicationContext(), "Lütfen bir yorum giriniz.");
+         return;
+      }
       database.saveComment(comment, post).thenAccept(result -> {
          if (result) {
             getAllComment();
@@ -56,7 +61,6 @@ public class CommentActivity extends AppCompatActivity {
       });
    }
 
-   @SuppressLint("NotifyDataSetChanged")
    public void getAllComment() {
       database.getAllComment(post).thenAccept(comments1 -> {
          comments.clear();

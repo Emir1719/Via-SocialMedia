@@ -13,15 +13,12 @@ import com.emirozturk.via.databinding.ActivityMainBinding;
 import com.emirozturk.via.fragment.AddPostFragment;
 import com.emirozturk.via.fragment.HomeFragment;
 import com.emirozturk.via.fragment.ProfileFragment;
-import com.emirozturk.via.model.IDatabase;
 import com.emirozturk.via.service.AppAuth;
 import com.emirozturk.via.model.IAuth;
-import com.emirozturk.via.service.FirebaseDB;
 
 public class MainActivity extends AppCompatActivity {
    private ActivityMainBinding binding;
    private IAuth auth;
-   private IDatabase database;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
       replaceFragment(new HomeFragment());
       setupBottomNavbar();
       auth = new AppAuth(this);
-      database = new FirebaseDB(this);
    }
 
    @Override

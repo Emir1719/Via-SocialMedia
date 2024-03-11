@@ -11,7 +11,7 @@
         android:text="emirzr56@gmail.com"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         android:paddingTop="5dp"
         android:textColor="@color/black"
         android:layout_width="match_parent"
@@ -21,11 +21,19 @@
         android:id="@+id/textComment"
         android:text="Merhaba nasılsın? Gönderi gayet güzel ve inanılmaz etkileyici. Başarılar!"
         android:textSize="16sp"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <!-- <ImageButton
+        android:id="@+id/btnLike"
+        android:layout_marginHorizontal="15dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        android:src="@drawable/baseline_done_24"/> -->
 
 </LinearLayout>

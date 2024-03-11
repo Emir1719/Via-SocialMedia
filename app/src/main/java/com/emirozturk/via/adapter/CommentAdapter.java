@@ -1,14 +1,10 @@
 package com.emirozturk.via.adapter;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.emirozturk.via.databinding.RecyclerCommentRowBinding;
-import com.emirozturk.via.databinding.RecyclerRowBinding;
 import com.emirozturk.via.model.Comment;
-
 import java.util.ArrayList;
 import java.util.List;
 

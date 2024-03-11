@@ -2,7 +2,6 @@ package com.emirozturk.via.model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Post implements Serializable {
    private String email, comment, url;
